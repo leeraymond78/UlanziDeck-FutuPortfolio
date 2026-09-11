@@ -1,0 +1,43 @@
+{
+    "Version": "1.0.0",
+    "Author": "RayKira",
+    "Name": "Futu Portfolio",
+    "Description": "Show Futu portfolio worth and gain/loss via local OpenD.",
+    "Icon": "assets/icons/icon.svg",
+    "Category": "Futu Portfolio",
+    "CategoryIcon": "assets/icons/icon.svg",
+    "CodePath": "plugin/app.js",
+    "Type": "JavaScript",
+    "SupportedInMultiActions": false,
+    "PrivateAPI": true,
+    "UUID": "com.raykira.ulanzideck.futuportfolio",
+    "Actions": [
+        {
+            "Name": "Futu Portfolio",
+            "Icon": "assets/icons/icon.svg",
+            "PropertyInspectorPath": "property-inspector/config/inspector.html",
+            "state": 0,
+            "States": [
+                {
+                    "Image": "assets/icons/icon.svg"
+                }
+            ],
+            "Tooltip": "Show Futu portfolio worth and gain/loss.",
+            "UUID": "com.raykira.ulanzideck.futuportfolio.config",
+            "SupportedInMultiActions": false
+        }
+    ],
+    "OS": [
+        {
+            "Platform": "mac",
+            "MinimumVersion": "10.11"
+        },
+        {
+            "Platform": "windows",
+            "MinimumVersion": "10"
+        }
+    ],
+    "Software": {
+        "MinimumVersion": "6.1"
+    }
+}

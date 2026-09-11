@@ -1,0 +1,12 @@
+{
+  "name": "com.raykira.futuportfolio",
+  "version": "1.0.0",
+  "description": "Futu portfolio worth and gain/loss for UlanziDeck",
+  "type": "module",
+  "author": "RayKira",
+  "license": "MIT",
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.9",
+    "ws": "^8.18.0"
+  }
+}

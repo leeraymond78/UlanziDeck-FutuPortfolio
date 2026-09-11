@@ -1,0 +1,32 @@
+{
+	"Name": "Futu Portfolio",
+	"Description": "Show Futu portfolio worth and gain/loss via local OpenD.",
+	"Category": "Futu Portfolio",
+	"Actions": [
+		{
+			"Name": "Futu Portfolio",
+			"Tooltip": "Show Futu portfolio worth and gain/loss."
+		}
+	],
+	"Localization": {
+		"OpenD Host": "OpenD Host",
+		"OpenD Port": "OpenD Port",
+		"Trading Environment": "Trading Environment",
+		"Real": "Real",
+		"Simulate": "Simulate",
+		"Currency": "Currency",
+		"Gain / Loss": "Gain / Loss",
+		"Today": "Today",
+		"Total Unrealized": "Total Unrealized",
+		"Account ID": "Account ID",
+		"Refresh Frequency": "Refresh Frequency",
+		"10s": "10s",
+		"30s": "30s",
+		"1min": "1min",
+		"5min": "5min",
+		"10min": "10min",
+		"15min": "15min",
+		"30min": "30min",
+		"1h": "1h"
+	}
+}

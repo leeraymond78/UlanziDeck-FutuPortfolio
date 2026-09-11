@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta
+			name="viewport"
+			content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui,viewport-fit=cover"
+		/>
+  <title>action</title>
+  <link rel="stylesheet" href="../../libs/css/udpi.css">
+</head>
+<body>
+  <div class="udpi-wrapper hidden">
+
+    <form id="property-inspector">
+
+      <div class="udpi-item">
+        <div class="udpi-item-label" data-localize>OpenD Host</div>
+        <input class="udpi-item-value" type="text" id="host" name="host" value="127.0.0.1">
+      </div>
+
+      <div class="udpi-item">
+        <div class="udpi-item-label" data-localize>OpenD Port</div>
+        <input class="udpi-item-value" type="number" id="port" name="port" value="11111" min="1" max="65535">
+      </div>
+
+      <div type="select" class="udpi-item">
+        <div class="udpi-item-label" data-localize>Trading Environment</div>
+        <select class="udpi-item-value select" id="trdEnv" name="trdEnv">
+          <option value="1" data-localize selected>Real</option>
+          <option value="0" data-localize>Simulate</option>
+        </select>
+      </div>
+
+      <div type="select" class="udpi-item">
+        <div class="udpi-item-label" data-localize>Currency</div>
+        <select class="udpi-item-value select" id="currency" name="currency">
+          <option value="1" selected>HKD</option>
+          <option value="2">USD</option>
+          <option value="3">CNH</option>
+          <option value="4">JPY</option>
+          <option value="5">SGD</option>
+          <option value="6">AUD</option>
+        </select>
+      </div>
+
+      <div type="select" class="udpi-item">
+        <div class="udpi-item-label" data-localize>Gain / Loss</div>
+        <select class="udpi-item-value select" id="plType" name="plType">
+          <option value="today" data-localize selected>Today</option>
+          <option value="total" data-localize>Total Unrealized</option>
+        </select>
+      </div>
+
+      <div class="udpi-item">
+        <div class="udpi-item-label" data-localize>Account ID</div>
+        <input class="udpi-item-value" type="text" id="accID" name="accID" placeholder="Auto">
+      </div>
+
+      <div type="select" class="udpi-item">
+        <div class="udpi-item-label" data-localize>Refresh Frequency</div>
+        <select class="udpi-item-value select" id="refreshDuration" name="refreshDuration">
+          <option value="10" data-localize>10s</option>
+          <option value="30" data-localize>30s</option>
+          <option value="60" data-localize selected>1min</option>
+          <option value="300" data-localize>5min</option>
+          <option value="600" data-localize>10min</option>
+          <option value="900" data-localize>15min</option>
+          <option value="1800" data-localize>30min</option>
+          <option value="3600" data-localize>1h</option>
+        </select>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script src="../../libs/js/constants.js"></script>
+  <script src="../../libs/js/eventEmitter.js"></script>
+  <script src="../../libs/js/timers.js"></script>
+  <script src="../../libs/js/utils.js"></script>
+  <script src="../../libs/js/ulanzideckApi.js"></script>
+  <script src="./inspector.js"></script>
+  
+</body>
+</html>

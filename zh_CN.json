@@ -1,0 +1,32 @@
+{
+	"Name": "富途持仓",
+	"Description": "通过本地 OpenD 显示富途组合市值与盈亏。",
+	"Category": "富途持仓",
+	"Actions": [
+		{
+			"Name": "富途持仓",
+			"Tooltip": "显示富途组合市值与盈亏。"
+		}
+	],
+	"Localization": {
+		"OpenD Host": "OpenD 地址",
+		"OpenD Port": "OpenD 端口",
+		"Trading Environment": "交易环境",
+		"Real": "真实",
+		"Simulate": "模拟",
+		"Currency": "币种",
+		"Gain / Loss": "盈亏",
+		"Today": "今日",
+		"Total Unrealized": "持仓盈亏",
+		"Account ID": "账户 ID",
+		"Refresh Frequency": "刷新频率",
+		"10s": "10秒",
+		"30s": "30秒",
+		"1min": "1分钟",
+		"5min": "5分钟",
+		"10min": "10分钟",
+		"15min": "15分钟",
+		"30min": "30分钟",
+		"1h": "1小时"
+	}
+}
