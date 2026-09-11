@@ -4,11 +4,11 @@ Shows your [Futu](https://www.futunn.com/) / [Moomoo](https://www.moomoo.com/) p
 
 The key uses a dark ticker layout:
 
-- **Top:** `株式` plus currency (`HKD`, `USD`, …)
-- **Middle:** total net assets
-- **Bottom:** gain/loss amount and percent (green up, red down)
+- **Top:** `株式` plus currency (`HKD`, `USD`, …), and `今日` / `累計`
+- **Middle:** total net assets (converted to the selected currency)
+- **Bottom:** gain/loss in the selected currency (USD and other P&L are converted to HKD/USD/… with OpenD’s FX, then summed)
 
-Tap the key to refresh immediately.
+Tap the key to switch between **today's P&L** (`今日`) and **total unrealized P&L** (`累計`).
 
 This plugin does **not** talk to Futu’s servers by itself. It reads your account from **OpenD**, Futu’s local API gateway, running on your computer.
 
@@ -91,7 +91,6 @@ On the machine running OpenD, port **11111** should be open on `127.0.0.1`. If t
 - OpenD host and port (default `127.0.0.1:11111`)
 - Real or simulate environment
 - Display currency
-- Today P&L or total unrealized P&L
 - Optional account ID (leave blank to auto-pick the universal securities account)
 - Refresh interval
 

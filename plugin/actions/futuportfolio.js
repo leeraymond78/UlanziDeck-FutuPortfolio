@@ -28,15 +28,25 @@ function formatWorth(value) {
 }
 
 function formatPlAmount(value) {
-    const amount = Math.round(Number(value) || 0)
-    const sign = amount > 0 ? '+' : amount < 0 ? '-' : ''
-    return `${sign}${Math.abs(amount).toLocaleString('en-US')}`
+    return Math.abs(Math.round(Number(value) || 0)).toLocaleString('en-US')
 }
 
 function formatPlPercent(value) {
-    const amount = Number(value) || 0
-    const sign = amount > 0 ? '+' : ''
-    return `${sign}${amount.toFixed(2)}%`
+    return `${Math.abs(Number(value) || 0).toFixed(2)}%`
+}
+
+function plColor(amount) {
+    return amount > 0 ? '#3f9c24' : amount < 0 ? '#c62e1a' : '#ffffff'
+}
+
+function withPlType(data, plType) {
+    const amount = plType === 'total' ? Number(data.totalPl) || 0 : Number(data.todayPl) || 0
+    const basis = data.marketVal > 0 ? data.marketVal : data.totalAssets
+    return {
+        ...data,
+        plAmount: amount,
+        plPercent: basis ? (amount / basis) * 100 : 0
+    }
 }
 
 export default class FutuPortfolio {
@@ -49,6 +59,7 @@ export default class FutuPortfolio {
         this.debounceTimer = 0
         this.refreshTimer = 0
         this.fetching = false
+        this.lastData = null
 
         this.settings = {
             host: '127.0.0.1',
@@ -75,6 +86,18 @@ export default class FutuPortfolio {
         this.run()
     }
 
+    togglePlType() {
+        this.settings.plType = this.settings.plType === 'total' ? 'today' : 'total'
+        if (typeof this.$UD.sendParamFromPlugin === 'function') {
+            this.$UD.sendParamFromPlugin(this.settings, this.context)
+        }
+        if (this.lastData) {
+            this.createIcon(null, withPlType(this.lastData, this.settings.plType))
+            return
+        }
+        this.fetchData()
+    }
+
     fetchData() {
         if (this.debounceTimer) clearTimeout(this.debounceTimer)
 
@@ -85,7 +108,8 @@ export default class FutuPortfolio {
 
             try {
                 const data = await openDClient.getPortfolio(this.settings)
-                this.createIcon(null, data)
+                this.lastData = data
+                this.createIcon(null, withPlType(data, this.settings.plType))
             } catch (err) {
                 console.log('===futu portfolio error', err)
                 const message = /ECONNREFUSED|not connected|connect timeout/i.test(String(err && err.message))
@@ -155,12 +179,21 @@ export default class FutuPortfolio {
             ctx.shadowBlur = 0
             ctx.font = `28px ${FONT_STACK}`
             this.drawTextWithSpacing(ctx, `株式 ${data.label}`, leftPadding, centerY - 50, 2, 'left')
+            ctx.font = `24px ${FONT_STACK}`
+            this.drawTextWithSpacing(
+                ctx,
+                this.settings.plType === 'total' ? '累計' : '今日',
+                canvas.width - 10,
+                centerY - 50,
+                2,
+                'right'
+            )
             const fontSize = formattedWorth.length > 8 ? 48 : formattedWorth.length > 6 ? 52 : 56
             ctx.font = `${fontSize}px ${FONT_STACK}`
             this.drawTextWithSpacing(ctx, formattedWorth, leftPadding, centerY - 5, 3, 'left')
             ctx.shadowBlur = 0
-            ctx.fillStyle = data.plAmount > 0 ? '#3f9c24' : data.plAmount < 0 ? '#c62e1a' : '#ffffff'
-            ctx.shadowColor = data.plAmount > 0 ? '#3f9c24' : data.plAmount < 0 ? '#c62e1a' : '#ffffff'
+            ctx.fillStyle = plColor(data.plAmount)
+            ctx.shadowColor = plColor(data.plAmount)
             ctx.font = `28px ${FONT_STACK}`
             this.drawTextWithSpacing(ctx, formattedChange, leftPadding, centerY + 40, 2, 'left')
         } else if (text) {
@@ -195,10 +228,12 @@ export default class FutuPortfolio {
         if (next.currency !== undefined) next.currency = Number(next.currency)
         if (next.refreshDuration !== undefined) next.refreshDuration = Number(next.refreshDuration)
 
+        const prev = JSON.stringify(this.settings)
         this.settings = {
             ...this.settings,
             ...next
         }
+        if (JSON.stringify(this.settings) === prev) return
         this.run()
     }
 

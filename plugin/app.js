@@ -27,7 +27,7 @@ $UD.onSetActive((jsn) => {
 $UD.onRun((jsn) => {
     const instance = ACTION_CACHES[jsn.context]
     if (!instance) $UD.emit('add', jsn)
-    else instance.run()
+    else instance.togglePlType()
 })
 
 $UD.onClear((jsn) => {

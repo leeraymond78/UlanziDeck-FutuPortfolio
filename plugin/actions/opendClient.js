@@ -12,7 +12,7 @@ const PROTO = {
     GetPositionList: 2102
 }
 
-const CURRENCY_LABEL = {
+export const CURRENCY_LABEL = {
     1: 'HKD',
     2: 'USD',
     3: 'CNH',
@@ -319,19 +319,46 @@ export default class OpenDClient {
         const funds = fundsRes.s2c?.funds || {}
         const totalAssets = num(funds.totalAssets)
         const marketVal = num(funds.marketVal)
-        const todayPl = positions.reduce((sum, pos) => sum + num(pos.tdPlVal), 0)
-        const totalPl = positions.reduce((sum, pos) => sum + num(pos.plVal), 0)
-        const plType = settings.plType || 'today'
-        const plAmount = plType === 'total' ? totalPl : todayPl
-        const basis = marketVal > 0 ? marketVal : totalAssets
-        const plPercent = basis ? (plAmount / basis) * 100 : 0
+        const plByCurrency = {}
+        for (const pos of positions) {
+            const ccy = Number(pos.currency) || 0
+            if (!plByCurrency[ccy]) {
+                plByCurrency[ccy] = { today: 0, total: 0, val: 0 }
+            }
+            plByCurrency[ccy].today += num(pos.tdPlVal)
+            plByCurrency[ccy].total += num(pos.plVal)
+            plByCurrency[ccy].val += num(pos.val)
+        }
+
+        const fxToDisplay = { [currency]: 1 }
+        const otherCurrencies = Object.keys(plByCurrency)
+            .map(Number)
+            .filter((ccy) => ccy && ccy !== currency)
+        for (const ccy of otherCurrencies) {
+            try {
+                const fxRes = await this.send(PROTO.GetFunds, {
+                    c2s: { header, refreshCache: false, currency: ccy }
+                })
+                const otherAssets = num(fxRes.s2c?.funds?.totalAssets)
+                fxToDisplay[ccy] = otherAssets > 0 ? totalAssets / otherAssets : 1
+            } catch (err) {
+                console.log('===fx rate error', ccy, err)
+                fxToDisplay[ccy] = 1
+            }
+        }
+
+        let todayPl = 0
+        let totalPl = 0
+        for (const [ccy, bucket] of Object.entries(plByCurrency)) {
+            const rate = fxToDisplay[Number(ccy)] ?? 1
+            todayPl += bucket.today * rate
+            totalPl += bucket.total * rate
+        }
 
         return {
             label: CURRENCY_LABEL[currency] || 'FUTU',
             totalAssets,
             marketVal,
-            plAmount,
-            plPercent,
             todayPl,
             totalPl,
             currency,

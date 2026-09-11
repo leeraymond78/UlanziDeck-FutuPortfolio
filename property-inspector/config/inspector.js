@@ -30,6 +30,12 @@ $UD.onParamFromApp(jsonObj => {
   }
 })
 
+$UD.onParamFromPlugin(jsonObj => {
+  if (jsonObj && jsonObj.param) {
+    settingSaveParam(jsonObj.param)
+  }
+})
+
 function settingSaveParam(params) {
   ACTION_SETTING = params
   Utils.setFormValue(ACTION_SETTING, form)
