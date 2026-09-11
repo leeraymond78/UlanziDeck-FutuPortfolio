@@ -1,5 +1,9 @@
 # Futu Portfolio for UlanziDeck
 
+<p align="center">
+  <img src="assets/demo.png" alt="Futu Portfolio key showing net assets and P&amp;L" width="240">
+</p>
+
 Shows your [Futu](https://www.futunn.com/) / [Moomoo](https://www.moomoo.com/) portfolio worth and gain/loss on an [UlanziDeck](https://www.ulanzi.com/) key.
 
 The key uses a dark ticker layout:
